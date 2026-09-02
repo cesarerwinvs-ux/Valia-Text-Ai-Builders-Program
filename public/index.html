@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valia Text AI Builder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="hero">
+        <div class="badge">Valia · Text AI Builders Program</div>
+        <h1>Text AI Builder</h1>
+        <p class="subtitle">
+          Turn a rough idea into polished copy. Pick a tone and a format, and let Valia compose it for you.
+        </p>
+      </header>
+
+      <main class="grid">
+        <section class="card">
+          <h2>Compose</h2>
+          <form id="builder-form">
+            <label for="prompt">Your idea</label>
+            <textarea
+              id="prompt"
+              name="prompt"
+              rows="6"
+              placeholder="e.g. Announce our new spring collection. Highlight sustainable fabrics. Offer 20% off for members."
+            ></textarea>
+
+            <div class="row">
+              <div class="field">
+                <label for="tone">Tone</label>
+                <select id="tone" name="tone"></select>
+              </div>
+              <div class="field">
+                <label for="format">Format</label>
+                <select id="format" name="format"></select>
+              </div>
+            </div>
+
+            <button type="submit" id="build-btn">Build text</button>
+          </form>
+        </section>
+
+        <section class="card output-card">
+          <div class="output-header">
+            <h2>Result</h2>
+            <span id="meta" class="meta"></span>
+          </div>
+          <pre id="output" class="output" aria-live="polite">Your generated text will appear here.</pre>
+          <button type="button" id="copy-btn" class="secondary" hidden>Copy</button>
+        </section>
+      </main>
+
+      <footer class="foot">
+        <span id="status-dot" class="dot"></span>
+        <span id="status-text">Checking service…</span>
+      </footer>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

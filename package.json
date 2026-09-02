@@ -1,0 +1,19 @@
+{
+  "name": "valia-text-ai-builder",
+  "version": "1.0.0",
+  "description": "Valia Text AI Builder — a small web app that composes polished text from a prompt, tone, and format.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "license": "MIT"
+}
