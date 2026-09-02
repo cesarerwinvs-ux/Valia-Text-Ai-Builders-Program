@@ -1,66 +1,70 @@
-# Valia-Text-Ai-Builders-Program
+# Valia Web
 
-**Valia Text AI Builder** is a small full-stack web app that turns a rough idea into
-polished copy. Pick a tone (professional, friendly, persuasive, concise) and a
-format (paragraph, bullets, email), and the builder composes text for you.
+Base de proyecto **Next.js 15** lista para producción: App Router, TypeScript
+estricto, Tailwind CSS v4, ESLint + Prettier, `lucide-react` y utilidad `cn()`.
 
-The composition engine runs entirely locally, so the app works end to end with
-no external API keys or services.
+## Stack
 
-## Tech stack
+- **Next.js 15** (App Router) · **React 19**
+- **TypeScript** (modo estricto)
+- **Tailwind CSS v4** (`@tailwindcss/postcss`)
+- **ESLint 9** (flat config) + **Prettier** (sin conflictos)
+- **lucide-react** · **clsx** + **tailwind-merge** (`cn()`)
+- **zod** para validación de variables de entorno
 
-- **Runtime:** Node.js (>= 20)
-- **Server:** Express
-- **Frontend:** static HTML/CSS/JS (no build step)
-- **Tests:** Node's built-in test runner (`node --test`)
+## Estructura
 
-## Getting started
-
-```bash
-npm install      # install dependencies
-npm run dev      # start with auto-reload on http://localhost:3000
-# or
-npm start        # start once on http://localhost:3000
+```
+src/
+├── app/                  # Rutas, layouts, server actions (Server Components por defecto)
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── items/[id]/       # Demo de APIs asíncronas (params, searchParams, headers)
+├── components/
+│   ├── ui/               # Componentes atómicos (Button, ...)
+│   └── shared/           # Navbar, Footer, layout compartido
+├── lib/                  # utils.ts (cn), env.ts (validación con zod)
+├── hooks/                # Custom hooks (use-media-query, ...)
+├── types/                # Tipos e interfaces
+└── constants/            # Constantes globales (SITE_CONFIG, NAV_ITEMS, ...)
 ```
 
-Then open http://localhost:3000.
+## Requisitos
+
+- Node.js >= 20
+
+## Empezar
+
+```bash
+cp .env.example .env.local   # configura tus variables
+npm install
+npm run dev                  # http://localhost:3000
+```
 
 ## Scripts
 
-| Command       | Description                                   |
-| ------------- | --------------------------------------------- |
-| `npm start`   | Run the server on port `3000` (or `$PORT`).   |
-| `npm run dev` | Run the server with `--watch` auto-reload.    |
-| `npm test`    | Run the unit tests for the text engine.       |
+| Comando                | Descripción                         |
+| ---------------------- | ----------------------------------- |
+| `npm run dev`          | Servidor de desarrollo (Turbopack). |
+| `npm run build`        | Build de producción.                |
+| `npm start`            | Sirve el build de producción.       |
+| `npm run lint`         | ESLint.                             |
+| `npm run lint:fix`     | ESLint con autofix.                 |
+| `npm run typecheck`    | Chequeo de tipos (`tsc --noEmit`).  |
+| `npm run format`       | Formatea con Prettier.              |
+| `npm run format:check` | Verifica el formato sin escribir.   |
 
-## API
+## Convenciones
 
-| Method | Path           | Description                                              |
-| ------ | -------------- | -------------------------------------------------------- |
-| `GET`  | `/api/health`  | Health check (`{ status: "ok" }`).                       |
-| `GET`  | `/api/options` | Available tones and formats.                             |
-| `POST` | `/api/build`   | Build text from `{ prompt, tone, format }`.              |
+- **Server Components por defecto**: añade `'use client'` solo cuando necesites
+  estado, hooks de React o eventos del DOM (p. ej. `components/shared/navbar.tsx`).
+- **APIs asíncronas de Next.js 15**: `params`, `searchParams`, `cookies()` y
+  `headers()` son Promesas; úsalas con `await` (ver `src/app/items/[id]/page.tsx`).
+- **Variables de entorno**: define y valida en `src/lib/env.ts`. Las públicas
+  usan el prefijo `NEXT_PUBLIC_`. Nunca pongas secretos en variables públicas.
 
-Example:
+## Despliegue
 
-```bash
-curl -s -X POST http://localhost:3000/api/build \
-  -H 'Content-Type: application/json' \
-  -d '{"prompt":"Announce our spring sale","tone":"persuasive","format":"bullets"}'
-```
-
-## Project layout
-
-```
-server.js              # Express server + API routes
-src/textBuilder.js     # local text composition engine
-public/                # frontend (index.html, styles.css, app.js)
-test/                  # unit tests
-.cursor/environment.json  # Cloud Agent environment config
-```
-
-## Cloud Agent environment
-
-The [.cursor/environment.json](.cursor/environment.json) config installs
-dependencies with `npm install` and starts the dev server (`npm run dev`) in a
-`dev-server` terminal, exposing port `3000`.
+Este proyecto se despliega en Vercel con CI por cada push a `main`. Consulta la
+sección correspondiente en la descripción del pull request o la documentación de
+Vercel.
